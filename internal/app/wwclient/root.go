@@ -138,13 +138,13 @@ func CobraRunE(cmd *cobra.Command, args []string) (err error) {
 	} else {
 		// Raspberry Pi serial and DUID locations
 		// /sys/firmware/devicetree/base/serial-number
-		// /sys/firmware/devicetree/base/chosen/rpi-duid
+		// /sys/firmware/devicetree/base/chosen/rpi-duid (Pi 5 only)
 		piSerial, err := os.ReadFile("/sys/firmware/devicetree/base/serial-number")
 		if err != nil {
 			return fmt.Errorf("could not get SMBIOS info: %w", smbiosErr)
 		}
-		localUUID = uuid.NewSHA1(uuid.NameSpaceURL, []byte("http://raspberrypi.com/serial-number/"+string(piSerial)))
-		tag = "Unknown"
+		tag = string(piSerial[:len(piSerial)-1]) // remove trailing null
+		localUUID = uuid.NewSHA1(uuid.NameSpaceURL, []byte("http://raspberrypi.com/serial-number/" + tag))
 	}
 
 	cmdline, err := os.ReadFile("/proc/cmdline")

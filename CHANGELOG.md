@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Renamed debian.interfaces overlay to ifupdown
 - Change the DHCP server package used on openeuler 24.03 to dnsmasq
+- Use opencontainers/selinux to manage SELinux in wwclient.
 
 ### Fixed
 
